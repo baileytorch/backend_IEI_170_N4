@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView,ListView
+from django.views.generic import TemplateView, ListView
 
 from rest_framework import viewsets
 from .serializer import Nacionalidad_Serializer as nacser, Autor_Serializer as autser, Comuna_Serializer as comser, Direccion_Serializer as dirser, Biblioteca_Serializer as bibser, Lector_Serializer as lecser, TipoCategoria_Serializer as tipser, Categoria_Serializer as catser, Libro_Serializer as libser, Prestamo_Serializer as preser
@@ -8,13 +8,18 @@ from .models import Nacionalidad, Autor, Comuna, Direccion, Biblioteca, Lector, 
 # Create your views here.
 
 
+def pagina_inicio(request):
+    return render(request, 'biblioteca/inicio.html')
+
+
 class Nacionalidad_ViewSet(viewsets.ModelViewSet):
     queryset = Nacionalidad.objects.all()
     serializer_class = nacser
 
+
 class NacionalidadListView(ListView):
-    model=Nacionalidad
-    
+    model = Nacionalidad
+    template_name = 'biblioteca/nacionalidad_list.html'
 
 
 class Autor_ViewSet(viewsets.ModelViewSet):

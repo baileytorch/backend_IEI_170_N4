@@ -17,7 +17,7 @@ router.register(r'comunas', views.Prestamo_ViewSet)
 
 
 urlpatterns = [
-    path('', include(router.urls))
-    # la ruta base va a incluir todos los elementos que tenga el router que hemos creado en URLS
-    # esta es la lista de URLS que maneja ROUTER en sus elementos URLS
+    path('', include(router.urls)),
+    path('biblioteca/listado_nacionalidades',
+         views.NacionalidadListView.as_view(), name='biblioteca')
 ]
