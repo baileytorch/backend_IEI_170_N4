@@ -7,7 +7,7 @@
     <title>{% block title %}Gestión Biblioteca{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="{% static 'css/bootstrap_cyborg.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
   </head>
 
@@ -76,10 +76,18 @@
                 Buscar
               </button>
             </form>
-            {% endcomment %}
+            {% endcomment %} {% comment %}
             <a href="{% url 'logout' %}" class="logout nav-link"
               >Salir {% iconic_icon "log-out" %}</a
             >
+            {% endcomment %}
+
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn_logout">
+                Salir {% iconic_icon "log-out" %}
+              </button>
+            </form>
           </div>
         </div>
       </nav>

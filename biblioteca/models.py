@@ -1,9 +1,17 @@
 from django.db import models
 import datetime
+from django.forms import ValidationError
+from rut_chile import rut_chile
 
 ahora = datetime.datetime.now
 
 # Create your models here.
+
+
+def validar_rut(rut):
+    valido = rut_chile.is_valid_rut(rut)
+    if valido == False:
+        raise ValidationError('RUT inválido.')
 
 
 class Nacionalidad(models.Model):
@@ -56,8 +64,8 @@ class Lector(models.Model):
         Biblioteca, on_delete=models.CASCADE, blank=False)
     direccion = models.ForeignKey(
         Direccion, on_delete=models.CASCADE, blank=True)
-    rut_lector = models.IntegerField(blank=False, unique=True)
-    digito_verificador = models.CharField(max_length=1, blank=False)
+    rut_lector = models.CharField(
+        max_length=12, blank=False, unique=True, validators=[validar_rut])
     nombre_lector = models.CharField(max_length=255, blank=False)
     correo_lector = models.CharField(max_length=255, blank=True)
     fecha_nacimiento = models.DateField(blank=True, default=None)

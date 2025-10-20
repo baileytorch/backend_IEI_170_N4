@@ -1,3 +1,11 @@
-.row {
+/* .row {
   margin-top: 15px;
+} */
+.iconos {
+  margin-top: 50px;
+}
+
+.btn_logout {
+  background: none;
+  border: 0;
 }
