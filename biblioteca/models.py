@@ -14,6 +14,16 @@ def validar_rut(rut):
         raise ValidationError('RUT inválido.')
 
 
+def validar_mayoria_edad(fecha_nacimiento):
+    # fecha_nacimiento = datetime.datetime.strptime(fecha_nac, "%d/%m/%Y")
+    fecha_actual = datetime.datetime.now()
+    edad = fecha_actual.year - fecha_nacimiento.year
+    if (fecha_actual.month, fecha_actual.day) < (fecha_nacimiento.month, fecha_nacimiento.day):
+        edad -= 1
+    if edad < 18:
+        raise ValidationError('El lector debe ser mayor de edad.')
+
+
 class Nacionalidad(models.Model):
     pais = models.CharField(max_length=50, blank=False)
     nacionalidad = models.CharField(max_length=50, blank=False)
@@ -68,7 +78,8 @@ class Lector(models.Model):
         max_length=12, blank=False, unique=True, validators=[validar_rut])
     nombre_lector = models.CharField(max_length=255, blank=False)
     correo_lector = models.CharField(max_length=255, blank=True)
-    fecha_nacimiento = models.DateField(blank=True, default=None)
+    fecha_nacimiento = models.DateField(
+        blank=True, default=None, validators=[validar_mayoria_edad])
     habilitado = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
