@@ -31,7 +31,7 @@ class Nacionalidad(models.Model):
 
 
 class Autor(models.Model):
-    nacionalidad = models.ForeignKey(
+    id_nacionalidad = models.ForeignKey(
         Nacionalidad, on_delete=models.CASCADE, blank=True)
     nombre = models.CharField(max_length=250, blank=False)
     pseudonimo = models.CharField(max_length=50, blank=True)
@@ -48,7 +48,7 @@ class Comuna(models.Model):
 
 
 class Direccion(models.Model):
-    comuna = models.ForeignKey(
+    id_comuna = models.ForeignKey(
         Comuna, on_delete=models.CASCADE, blank=False)
     calle = models.CharField(max_length=50, blank=False, default='')
     numero = models.CharField(max_length=10, blank=False, default='')
@@ -59,7 +59,7 @@ class Direccion(models.Model):
 
 
 class Biblioteca(models.Model):
-    direccion = models.ForeignKey(
+    id_direccion = models.ForeignKey(
         Direccion, on_delete=models.CASCADE, blank=True)
     nombre_biblioteca = models.CharField(max_length=100, blank=False)
     web = models.CharField(max_length=255, blank=True)
@@ -69,9 +69,9 @@ class Biblioteca(models.Model):
 
 
 class Lector(models.Model):
-    biblioteca = models.ForeignKey(
+    id_biblioteca = models.ForeignKey(
         Biblioteca, on_delete=models.CASCADE, blank=False)
-    direccion = models.ForeignKey(
+    id_direccion = models.ForeignKey(
         Direccion, on_delete=models.CASCADE, blank=True)
     rut_lector = models.CharField(
         max_length=12, blank=False, unique=True, validators=[validar_rut])
@@ -92,7 +92,7 @@ class TipoCategoria(models.Model):
 
 
 class Categoria(models.Model):
-    tipo_categoria = models.ForeignKey(
+    id_tipo_categoria = models.ForeignKey(
         TipoCategoria, on_delete=models.CASCADE, blank=False)
     categoria = models.CharField(max_length=100, blank=False)
     descripcion = models.CharField(max_length=255, blank=True)
@@ -102,8 +102,8 @@ class Categoria(models.Model):
 
 
 class Libro(models.Model):
-    biblioteca = models.ForeignKey(Biblioteca, on_delete=models.CASCADE, blank=False)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, blank=True)
+    id_biblioteca = models.ForeignKey(Biblioteca, on_delete=models.CASCADE, blank=False)
+    id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, blank=True)
     id_autor = models.ForeignKey(Autor, on_delete=models.CASCADE, blank=False)
     titulo = models.CharField(max_length=255, blank=False)
     paginas = models.IntegerField(blank=False)
@@ -116,8 +116,8 @@ class Libro(models.Model):
 
 
 class Prestamo(models.Model):
-    libro = models.ForeignKey(Libro, on_delete=models.CASCADE, blank=False)
-    lector = models.ForeignKey(
+    id_libro = models.ForeignKey(Libro, on_delete=models.CASCADE, blank=False)
+    id_lector = models.ForeignKey(
         Lector, on_delete=models.CASCADE, blank=False)
     fecha_prestamo = models.DateTimeField(auto_now_add=True)
     fecha_devolucion = models.DateField(blank=True)
@@ -132,7 +132,7 @@ class TipoParametro(models.Model):
 
 
 class Parametro(models.Model):
-    tipo_parametro = models.ForeignKey(
+    id_tipo_parametro = models.ForeignKey(
         TipoParametro, on_delete=models.CASCADE, blank=False)
     clave_parametro = models.CharField(max_length=100, blank=False)
     valor_parametro = models.CharField(max_length=255, blank=True)
