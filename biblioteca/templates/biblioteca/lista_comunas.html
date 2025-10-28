@@ -1,0 +1,27 @@
+{% extends 'plantilla_base.html' %} {% load static %} {% block title %}Listado
+Lectores{% endblock%} {% block cabecera %} {% endblock %} {% block content %}
+<h1>Listado de Comunas</h1>
+<table id="tabla_comunas" class="display">
+  <thead>
+    <tr>
+      <th>N°</th>
+      <th>Código Comuna</th>
+      <th>Nombre Comuna</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for comuna in comunas %}
+    <tr>
+      <td>{{ comuna.id }}</td>
+      <td>{{ comuna.codigo_comuna }}</td>
+      <td>{{ comuna.nombre_comuna }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} {% block scripts %}
+<script
+  type="text/javascript"
+  src="{% static 'scripts/listados_datatables.js' %}"
+></script>
+{% endblock %}

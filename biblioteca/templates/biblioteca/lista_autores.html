@@ -1,0 +1,29 @@
+{% extends 'plantilla_base.html' %} {% load static %} {% block title %}Listado
+Lectores{% endblock%} {% block cabecera %} {% endblock %} {% block content %}
+<h1>Listado de Autores</h1>
+<table id="tabla_autores" class="cell-border">
+  <thead>
+    <tr>
+      <th>N°</th>
+      <th>Nombre</th>
+      <th>Pseudónimo</th>
+      <th>Biografía</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for autor in autores %}
+    <tr>
+      <td>{{ autor.id }}</td>
+      <td>{{ autor.nombre }}</td>
+      <td>{{ autor.pseudonimo }}</td>
+      <td>{{ autor.biografia }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} {% block scripts %}
+<script
+  type="text/javascript"
+  src="{% static 'scripts/listados_datatables.js' %}"
+></script>
+{% endblock %}

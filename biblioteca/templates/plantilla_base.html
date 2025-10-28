@@ -8,7 +8,22 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+
+    {% block estilos %}{% endblock %}
+    <script
+      type="text/javascript"
+      src="{% static 'scripts/jquery-3.7.1.min.js' %}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'scripts/bootstrap.js' %}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'scripts/datatables.min.js' %}"
+    ></script>
   </head>
 
   <body>
@@ -44,7 +59,9 @@
                 <a class="nav-link" href="#">Libros</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Lectores</a>
+                <a class="nav-link" href="{%url 'listado_lectores'%}"
+                  >Lectores</a
+                >
               </li>
               <li class="nav-item dropdown"></li>
             </ul>
@@ -66,15 +83,18 @@
       {% endblock %}
     </header>
 
-    <main>
+    <main class="container contenido-principal">
       {% block content %}
       <!-- El contenido específico de cada página se insertará aquí -->
-      {% endblock %}
+      {% endblock %} {% comment %}
+      <div class="mx-auto"></div>
+      {% endcomment %}
     </main>
 
     <hr />
     <footer>
       <p>&copy; 2025 Erick Bailey</p>
     </footer>
+    {% block scripts %}{% endblock %}
   </body>
 </html>

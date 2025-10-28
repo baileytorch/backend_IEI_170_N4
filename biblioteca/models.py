@@ -15,7 +15,6 @@ def validar_rut(rut):
 
 
 def validar_mayoria_edad(fecha_nacimiento):
-    # fecha_nacimiento = datetime.datetime.strptime(fecha_nac, "%d/%m/%Y")
     fecha_actual = datetime.datetime.now()
     edad = fecha_actual.year - fecha_nacimiento.year
     if (fecha_actual.month, fecha_actual.day) < (fecha_nacimiento.month, fecha_nacimiento.day):
@@ -103,10 +102,8 @@ class Categoria(models.Model):
 
 
 class Libro(models.Model):
-    biblioteca = models.ForeignKey(
-        Biblioteca, on_delete=models.CASCADE, blank=False)
-    categoria = models.ForeignKey(
-        Categoria, on_delete=models.CASCADE, blank=True)
+    biblioteca = models.ForeignKey(Biblioteca, on_delete=models.CASCADE, blank=False)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, blank=True)
     id_autor = models.ForeignKey(Autor, on_delete=models.CASCADE, blank=False)
     titulo = models.CharField(max_length=255, blank=False)
     paginas = models.IntegerField(blank=False)

@@ -1,0 +1,22 @@
+{% extends 'plantilla_base.html' %} {% load static %} {% block title %}Listado
+Lectores{% endblock%} {% block cabecera %} {% endblock %} {% block content %}
+<h1>Listado de Lectores</h1>
+<table id="tabla_lectores" class="display">
+  <thead>
+    <tr>
+      <th>RUT Lector</th>
+      <th>Nombre Lector</th>
+      <th>Correo Lector</th>
+      <th>Fecha Nacimiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Data will be loaded dynamically or from Django context -->
+  </tbody>
+</table>
+{% endblock %} {% block scripts %}
+<script
+  type="text/javascript"
+  src="{% static 'scripts/listados_datatables.js' %}"
+></script>
+{% endblock %}

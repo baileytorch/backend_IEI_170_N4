@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'biblioteca',
     'rest_framework',
     'iconic',
-    'drf_yasg',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [

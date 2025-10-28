@@ -1,0 +1,23 @@
+{% extends 'plantilla_base.html' %} {% load static %} 
+
+{% block title %}Listado Libros{% endblock%}
+{% block estilos %}<link rel="stylesheet" href="{% static 'css/estilos_libros.css' %}" />{% endblock %}
+
+{% block cabecera %}<h1>Listado de Libros</h1>{% endblock %} 
+
+{% block content %}
+<div class="row">
+    {% for libro in libros %}
+    <div class="col-sm-4 tarjeta-libro">
+        <div class="card">
+            <div class="card-header">{{libro.titulo}}</div>
+            <div class="card-body">
+                <h5 class="card-title">{{libro.id_autor}}</h5>
+                <p class="card-text">Categoría: {{libro.categoria}}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -36,19 +36,23 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', views.pagina_inicio, name='pagina_inicio'),
     path('biblioteca/', include('biblioteca.urls')),
 
+    # URL's vistas de lista
+    path('listado_autores', views.listado_autores,name='listado_autores'),
+    path('listado_comunas', views.listado_comunas,name='listado_comunas'),
+    path('listado_lectores', views.listado_lectores,name='listado_lectores'),
+    path('listado_libros', views.listado_libros,name='listado_libros'),
+
     # URL's para documentación de API
-    path('apidocs/', schema_view.with_ui('swagger',
-                                         cache_timeout=0), name='schema-swagger-ui'),
-    path('redocs/', schema_view.with_ui('redoc',
-                                        cache_timeout=0), name='schema-redoc'),
+    path('apidocs/', schema_view.with_ui('swagger',cache_timeout=0), name='schema-swagger-ui'),
+    path('redocs/', schema_view.with_ui('redoc',cache_timeout=0), name='schema-redoc'),
 
     # URL's de autenticación
     path('accounts/', include('django.contrib.auth.urls')),
     path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(),
-         name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(),name='logout'),
     path('registro/', views.registro, name='registro'),
 ]
