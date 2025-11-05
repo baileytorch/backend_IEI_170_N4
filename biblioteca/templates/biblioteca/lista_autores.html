@@ -1,5 +1,5 @@
 {% extends 'plantilla_base.html' %} {% load static %} {% block title %}Listado
-Lectores{% endblock%} {% block cabecera %} {% endblock %} {% block content %}
+Autores{% endblock%} {% block cabecera %} {% endblock %} {% block content %}
 <h1>Listado de Autores</h1>
 <table id="tabla_autores" class="cell-border">
   <thead>
@@ -7,6 +7,8 @@ Lectores{% endblock%} {% block cabecera %} {% endblock %} {% block content %}
       <th>N°</th>
       <th>Nombre</th>
       <th>Pseudónimo</th>
+      {% comment %} <th></th> {% endcomment %}
+      {% comment %} <th>Nacionalidad</th> {% endcomment %}
       <th>Biografía</th>
     </tr>
   </thead>
@@ -16,6 +18,8 @@ Lectores{% endblock%} {% block cabecera %} {% endblock %} {% block content %}
       <td>{{ autor.id }}</td>
       <td>{{ autor.nombre }}</td>
       <td>{{ autor.pseudonimo }}</td>
+      {% comment %} <td><img src="{{ autor.imagen_autor }}" alt="{{ autor.nombre }}" width="100" height="100"></td> {% endcomment %}
+      {% comment %} <td>{{ autor.id_nacionalidad }}</td> {% endcomment %}
       <td>{{ autor.biografia }}</td>
     </tr>
     {% endfor %}

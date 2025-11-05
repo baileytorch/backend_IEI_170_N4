@@ -30,8 +30,10 @@ $(document).ready(function () {
     columns: [
       { width: "5%" },
       { width: "25%" },
-      { width: "10%" },
-      { width: "60%" },
+      { width: "15%" },
+      // { width: "10%" },
+      // { width: "10%" },
+      { width: "55%" },
     ],
   });
 

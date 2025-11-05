@@ -29,6 +29,13 @@ class Nacionalidad(models.Model):
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.nacionalidad
+
+class OpcionesGenero(models.TextChoices):
+    MASCULINO = 'M'
+    FEMENINO = 'F'
+
 
 class Autor(models.Model):
     id_nacionalidad = models.ForeignKey(
@@ -36,15 +43,26 @@ class Autor(models.Model):
     nombre = models.CharField(max_length=250, blank=False)
     pseudonimo = models.CharField(max_length=50, blank=True)
     biografia = models.TextField(blank=True)
+    genero = models.CharField(max_length=1,choices=OpcionesGenero.choices,default=OpcionesGenero.MASCULINO)
+    imagen_autor = models.URLField(blank=True)
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        if self.pseudonimo != '':
+            return self.pseudonimo
+        else:
+            return self.nombre
 
 
 class Comuna(models.Model):
-    codigo_comuna = models.CharField(max_length=5, blank=False)
+    codigo_comuna = models.CharField(max_length=5, blank=False, unique=True)
     nombre_comuna = models.CharField(max_length=50, blank=False)
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nombre_comuna
 
 
 class Direccion(models.Model):
@@ -67,6 +85,9 @@ class Biblioteca(models.Model):
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.nombre_biblioteca
+
 
 class Lector(models.Model):
     id_biblioteca = models.ForeignKey(
@@ -79,9 +100,13 @@ class Lector(models.Model):
     correo_lector = models.CharField(max_length=255, blank=True)
     fecha_nacimiento = models.DateField(
         blank=True, default=None, validators=[validar_mayoria_edad])
+    genero = models.CharField(max_length=1,choices=OpcionesGenero.choices,default=OpcionesGenero.MASCULINO)
     habilitado = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.nombre_lector} {self.rut_lector}'
 
 
 class TipoCategoria(models.Model):
@@ -89,6 +114,9 @@ class TipoCategoria(models.Model):
     habilitado = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.tipo_categoria
 
 
 class Categoria(models.Model):
@@ -100,10 +128,15 @@ class Categoria(models.Model):
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.categoria
+
 
 class Libro(models.Model):
-    id_biblioteca = models.ForeignKey(Biblioteca, on_delete=models.CASCADE, blank=False)
-    id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, blank=True)
+    id_biblioteca = models.ForeignKey(
+        Biblioteca, on_delete=models.CASCADE, blank=False)
+    id_categoria = models.ForeignKey(
+        Categoria, on_delete=models.CASCADE, blank=True)
     id_autor = models.ForeignKey(Autor, on_delete=models.CASCADE, blank=False)
     titulo = models.CharField(max_length=255, blank=False)
     paginas = models.IntegerField(blank=False)
@@ -114,6 +147,9 @@ class Libro(models.Model):
     created_at = models.DateTimeField(default=ahora)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.titulo
+
 
 class Prestamo(models.Model):
     id_libro = models.ForeignKey(Libro, on_delete=models.CASCADE, blank=False)
@@ -122,6 +158,25 @@ class Prestamo(models.Model):
     fecha_prestamo = models.DateTimeField(auto_now_add=True)
     fecha_devolucion = models.DateField(blank=True)
     fecha_retorno = models.DateTimeField(blank=True)
+
+
+class Reserva(models.Model):
+    class TipoReservaChoices(models.IntegerChoices):
+        NO_RESERVA = 0, 'Sin Reserva'
+        SEMANA = 1, '1 Semana'
+        MES = 2, '1 Mes'
+        SEMESTRE = 3, '1 Semestre'
+    id_libro = models.ForeignKey(Libro, on_delete=models.CASCADE, blank=False)
+    id_lector = models.ForeignKey(
+        Lector, on_delete=models.CASCADE, blank=False)
+    fecha_reserva = models.DateTimeField(auto_now_add=True)
+    tipo_reserva = models.IntegerField(choices=TipoReservaChoices.choices,default=TipoReservaChoices.NO_RESERVA)
+    habilitado = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=ahora)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.id_lector} {self.id_libro} {self.fecha_reserva}'
 
 
 class TipoParametro(models.Model):

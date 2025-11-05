@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'biblioteca',
     'rest_framework',
     'iconic',
-    'drf_yasg'
+    'drf_yasg',
+    'django_filters',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -132,10 +134,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static/',
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
