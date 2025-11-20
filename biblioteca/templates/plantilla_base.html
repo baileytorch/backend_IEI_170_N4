@@ -74,16 +74,19 @@
           </div>
         </div>
       </nav>
-      <div class="row">
-        <div class="col-12 text-center">
-          {% block cabecera %}
-          <h1>Sistema de Gestión de Biblioteca</h1>
-          {% endblock %}
-        </div>
-      </div>
     </header>
 
-    <main class="container contenido-principal">
+    <div class="row">
+      <div class="col-12 text-center">
+        {% block cabecera %}
+        <h1>Sistema de Gestión de Biblioteca</h1>
+        {% endblock %}
+      </div>
+    </div>
+
+    <main
+      class="container contenido-principal"
+    >
       {% block content %}
       <!-- El contenido específico de cada página se insertará aquí -->
       {% endblock %} {% comment %}

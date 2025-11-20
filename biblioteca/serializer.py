@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Nacionalidad, Autor, Comuna, Direccion, Biblioteca, Lector, TipoCategoria, Categoria, Libro, Prestamo, Reserva, TipoParametro, Parametro
+from .models import Autor, Autor, Comuna, Direccion, Biblioteca, Lector, TipoCategoria, Categoria, Libro, Prestamo, Reserva, TipoParametro, Parametro
 
 
 class NacionalidadSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Nacionalidad
+        model = Autor
         fields = '__all__'
 
 
