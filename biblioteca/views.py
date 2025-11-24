@@ -4,6 +4,7 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 import django_filters
+from django.contrib.auth.models import User
 
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication
@@ -39,7 +40,9 @@ def registro(request):
 
 @login_required
 def pagina_inicio(request):
-    return render(request, 'biblioteca/inicio.html')
+    user = User()
+    permisos = user.get_all_permissions()
+    return render(request, 'biblioteca/inicio.html',{'permisos':permisos})
 
 
 class NacionalidadViewSet(viewsets.ModelViewSet):
