@@ -66,6 +66,7 @@ class NacionalidadCreateView(PermissionRequiredMixin, CreateView):
     permission_classes = [IsAuthenticated]
     model = Nacionalidad
     permission_required = ('biblioteca.add_nacionalidad')
+    fields =['pais','nacionalidad']
     # template_name = 'update_pallet.html'
     
 class NacionalidadUpdateView(PermissionRequiredMixin, UpdateView):
