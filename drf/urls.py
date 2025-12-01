@@ -41,6 +41,7 @@ urlpatterns = [
     path('biblioteca/', include('biblioteca.urls')),
 
     # URL's vistas de lista
+    path('lista_nacionalidades', views.NacionalidadListView.as_view()),
     path('listado_autores', views.listado_autores,name='listado_autores'),
     path('listado_comunas', views.listado_comunas,name='listado_comunas'),
     path('listado_lectores', views.listado_lectores,name='listado_lectores'),

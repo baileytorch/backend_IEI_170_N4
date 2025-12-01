@@ -4,7 +4,13 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 import django_filters
-from django.contrib.auth.models import User
+
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, DetailView  # Vistas para VER
+from django.views.generic import CreateView, UpdateView, DeleteView  # Vistas para EDITAR
+from django.views.generic import View, TemplateView, RedirectView  # Vistas BÁSICAS
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin, UserPassesTestMixin
 
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication
@@ -40,10 +46,41 @@ def registro(request):
 
 @login_required
 def pagina_inicio(request):
-    user = User()
-    permisos = user.get_all_permissions()
-    return render(request, 'biblioteca/inicio.html',{'permisos':permisos})
+    permisos = None
+    if request.user.is_authenticated:
+        usuario = request.user.id
+        permisos = request.user.user_permissions.all()
+    return render(request, 'biblioteca/inicio.html', {'permisos': permisos})
 
+class NacionalidadListView(PermissionRequiredMixin, ListView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    model = Nacionalidad
+    permission_required = ('biblioteca.view_nacionalidad')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+class NacionalidadCreateView(PermissionRequiredMixin, CreateView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    model = Nacionalidad
+    permission_required = ('biblioteca.add_nacionalidad')
+    # template_name = 'update_pallet.html'
+    
+class NacionalidadUpdateView(PermissionRequiredMixin, UpdateView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    model = Nacionalidad
+    permission_required = ('biblioteca.change_nacionalidad')
+    # template_name = 'update_pallet.html'
+    
+class NacionalidadDeleteView(PermissionRequiredMixin, DeleteView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    model = Nacionalidad
+    permission_required = ('biblioteca.delete_nacionalidad')
+    # template_name = 'update_pallet.html'
 
 class NacionalidadViewSet(viewsets.ModelViewSet):
     authentication_classes = [SessionAuthentication]
@@ -130,10 +167,48 @@ def listado_libros(request):
     f = LibroFilter(request.GET, queryset=Libro.objects.all())
     return render(request, 'biblioteca/lista_libros.html', {'filter': f})
 
+# https://www.geeksforgeeks.org/python/how-to-use-permission-required-decorators-with-django-class-based-views/
+
+
+class LibroListView(ListView):
+    model = Libro
+    template_name = 'listado_libros.html'
+
+
+@method_decorator(permission_required('biblioteca.add_libro'), name='dispatch')
+class LibroCreateView(CreateView):
+    model = Libro
+    fields = ['titulo', 'paginas', 'copias', 'ubicacion']
+    template_name = 'libro_form.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class LibroUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Libro
+    fields = ['titulo', 'paginas', 'copias', 'ubicacion']
+    template_name = 'libro_form.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    # Ensure only the author can edit the post
+    # def test_func(self):
+    #     Libro = self.get_object()
+    #     return self.request.user == Libro.id_autor
+
 
 class LibroViewSet(viewsets.ModelViewSet):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
+    permission_required = ('biblioteca.add_libro', 'biblioteca.change_libro',
+        'biblioteca.delete_libro', 'biblioteca.view_libro')
+    raise_exception = True
     queryset = Libro.objects.all()
     serializer_class = LibroSerializer
 

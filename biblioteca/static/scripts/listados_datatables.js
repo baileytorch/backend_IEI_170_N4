@@ -37,6 +37,10 @@ $(document).ready(function () {
     ],
   });
 
+  $("#tabla_nacionalidades").DataTable({
+    language: dt_language,
+  });
+
   $("#tabla_lectores").DataTable({
     language: dt_language,
   });
