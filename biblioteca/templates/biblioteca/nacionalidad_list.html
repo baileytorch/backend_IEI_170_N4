@@ -20,8 +20,10 @@ Nacionalidades{% endblock%} {% block estilos %}<link rel="stylesheet" href="{% s
                 <td>{{ nacionalidad.nacionalidad }}</td>
                 <td>
                     <a class="text-decoration-none" href="#">{% iconic_icon "eye" %}</a>
-                    <a class="text-decoration-none" href="#">{% iconic_icon "edit" %}</a>
-                    <a class="text-decoration-none" href="#">{% iconic_icon "trash" %}</a>
+                    {% if perms.biblioteca.add_nacionalidad or perms.biblioteca.change_nacionalidad %}
+                        <a class="text-decoration-none" href="#">{% iconic_icon "edit" %}</a>
+                        <a class="text-decoration-none" href="#">{% iconic_icon "trash" %}</a>
+                    {% endif %}
                 </td>
             <!-- Data will be loaded dynamically or from Django context -->
         </tbody>

@@ -18,6 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .serializer import NacionalidadSerializer, AutorSerializer, ComunaSerializer, DireccionSerializer, BibliotecaSerializer, LectorSerializer, TipoCategoriaSerializer, CategoriaSerializer, LibroSerializer, PrestamoSerializer, ReservaSerializer, TipoParametroSerializer, ParametroSerializer
 from .models import Nacionalidad, Autor, Comuna, Direccion, Biblioteca, Lector, TipoCategoria, Categoria, Libro, Prestamo, Reserva, TipoParametro, Parametro
+from .forms import NacionalidadForm
 # Create your views here.
 
 
@@ -59,14 +60,16 @@ class NacionalidadListView(PermissionRequiredMixin, ListView):
     permission_required = ('biblioteca.view_nacionalidad')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user
         return context
     
 class NacionalidadCreateView(PermissionRequiredMixin, CreateView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    model = Nacionalidad
     permission_required = ('biblioteca.add_nacionalidad')
-    fields =['pais','nacionalidad']
+    model = Nacionalidad
+    form_class = NacionalidadForm
+    # fields =['pais','nacionalidad']
     # template_name = 'update_pallet.html'
     
 class NacionalidadUpdateView(PermissionRequiredMixin, UpdateView):

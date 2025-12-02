@@ -4,39 +4,28 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{% block title %}Gestión Biblioteca{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.25.0/dist/bootstrap-table.min.css" />
+    
+    <title>{% block title %}Gestión Biblioteca{% endblock %}</title>
 
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
     <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
 
     {% block estilos %}{% endblock %}
-    <script
-      type="text/javascript"
-      src="{% static 'scripts/jquery-3.7.1.min.js' %}"
-    ></script>
-    <script
-      type="text/javascript"
-      src="{% static 'scripts/bootstrap.js' %}"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.25.0/dist/bootstrap-table.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.25.0/dist/locale/bootstrap-table-zh-CN.min.js"></script>
-    <script
-      type="text/javascript"
-      src="{% static 'scripts/datatables.min.js' %}"
-    ></script>
+
+    <script type="text/javascript" src="{% static 'scripts/jquery-3.7.1.min.js' %}" ></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'scripts/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/scripts_biblioteca.js' %}"></script>
   </head>
 
   <body>
     <header>
       <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#"
-            >{% iconic_icon "table-columns" size=50 %}</a
-          >
+          <a class="navbar-brand" href="{%url 'pagina_inicio'%}">{% iconic_icon "table-columns" size=50 %}</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -48,27 +37,48 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                <a class="nav-link active" href="#"
-                  >Inicio
+                <a class="nav-link" href="{%url 'pagina_inicio'%}">Inicio
                   <span class="visually-hidden">(current)</span>
                 </a>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="#">Autores</a>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="#">Libros</a>
               </li>
+
               <li class="nav-item">
-                <a class="nav-link" href="{%url 'listado_lectores'%}"
-                  >Lectores</a
-                >
+                <a class="nav-link" href="{%url 'listado_lectores'%}">Lectores</a>
               </li>
-              <li class="nav-item dropdown"></li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Configuración
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Datos Iniciales</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Gestión Trabajadores</a></li>
+                  <li><a class="dropdown-item" href="#">Gestión Proveedores</a></li>
+                </ul>
+              </li>
             </ul>
+
+            <span class="navbar-text">
+              {% if user.is_authenticated %}
+                ¡Bienvenido {{ user.get_full_name }}!
+              {% else %}
+                <p>Por favor inicie sesión.</p>
+              {% endif %}
+            </span>
+
             <form action="{% url 'logout' %}" method="post">
               {% csrf_token %}
               <button type="submit" class="nav-link">
@@ -93,9 +103,7 @@
     >
       {% block content %}
       <!-- El contenido específico de cada página se insertará aquí -->
-      {% endblock %} {% comment %}
-      <div class="mx-auto"></div>
-      {% endcomment %}
+      {% endblock %}
     </main>
 
     <hr />
